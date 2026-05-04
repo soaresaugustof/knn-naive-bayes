@@ -335,20 +335,27 @@ def print_tabela_regressao(results):
 
 def main():
     # --- configurações ---
-    DATASET              = Path("data/dataset.arff")
-    TARGET_CLASSIFICACAO = "season"
-    TARGET_REGRESSAO     = "count"
-    K_FOLDS              = 4
+    DATASET_CLASSIFICACAO = Path("data/phplE7q6h.arff")  # EEG Eye State
+    TARGET_CLASSIFICACAO  = "Class"
+
+    DATASET_REGRESSAO     = Path("data/dataset.arff")    # Bike Sharing Demand
+    TARGET_REGRESSAO      = "count"
+    EXCLUIR_REGRESSAO     = ["casual", "registered"]     # evitar data leakage
+
+    K_FOLDS               = 4
     # ---------------------
 
-    if not DATASET.exists():
-        raise FileNotFoundError(f"Dataset não encontrado: {DATASET}")
+    if not DATASET_CLASSIFICACAO.exists():
+        raise FileNotFoundError(f"Dataset não encontrado: {DATASET_CLASSIFICACAO}")
+    if not DATASET_REGRESSAO.exists():
+        raise FileNotFoundError(f"Dataset não encontrado: {DATASET_REGRESSAO}")
 
-    print(f"Dataset: {DATASET}  |  Folds: {K_FOLDS}\n")
+    print(f"Folds: {K_FOLDS}\n")
 
     # Classificação
     print(">>> Carregando dados para classificação...")
-    X_c, y_c, features_c = load_arff(str(DATASET), target_column=TARGET_CLASSIFICACAO)
+    X_c, y_c, features_c = load_arff(str(DATASET_CLASSIFICACAO), target_column=TARGET_CLASSIFICACAO)
+    print(f"    Dataset:  {DATASET_CLASSIFICACAO}")
     print(f"    Target:   {TARGET_CLASSIFICACAO}")
     print(f"    Amostras: {X_c.shape[0]}  |  Features: {X_c.shape[1]}")
     print(f"    Features: {features_c}")
@@ -360,7 +367,8 @@ def main():
 
     # Regressão
     print(">>> Carregando dados para regressão...")
-    X_r, y_r, features_r = load_arff(str(DATASET), target_column=TARGET_REGRESSAO, exclude_columns=["casual", "registered"])
+    X_r, y_r, features_r = load_arff(str(DATASET_REGRESSAO), target_column=TARGET_REGRESSAO, exclude_columns=EXCLUIR_REGRESSAO)
+    print(f"    Dataset:  {DATASET_REGRESSAO}")
     print(f"    Target:   {TARGET_REGRESSAO}")
     print(f"    Amostras: {X_r.shape[0]}  |  Features: {X_r.shape[1]}")
     print(f"    Features: {features_r}")

@@ -129,7 +129,6 @@ def load_arff(file_path: str, target_column: str = None, exclude_columns: list =
 
 
 def load_dataset(dataset_path: Path, target_column: str, feature_columns: Optional[List[str]] = None):
-    """Carrega dataset CSV usando o módulo csv padrão do Python."""
     with open(dataset_path, 'r', encoding='utf-8', newline='') as f:
         reader = csv.DictReader(f)
         rows = list(reader)
@@ -332,7 +331,7 @@ def main():
 
     DATASET_REGRESSAO     = Path("data/dataset.arff")    # Bike Sharing Demand
     TARGET_REGRESSAO      = "count"
-    EXCLUIR_REGRESSAO     = ["casual", "registered"]  # ex: ["casual", "registered"] para evitar data leakage
+    EXCLUIR_REGRESSAO     = ["casual", "registered"]
 
     K_FOLDS               = 4
 

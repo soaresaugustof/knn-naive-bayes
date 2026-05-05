@@ -2,14 +2,6 @@ import numpy as np
 
 
 class NaiveBayesUnivariado:
-    """
-    Classificador Naive Bayes Gaussiano — Caso Univariado.
-
-    Assume independência entre as features. Modela cada feature
-    separadamente com uma distribuição normal univariada:
-
-        p(x | c) = p(x1|c) * p(x2|c) * ... * p(xn|c)
-    """
 
     def __init__(self, epsilon: float = 1e-9):
         self.epsilon = epsilon

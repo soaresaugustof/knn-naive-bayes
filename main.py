@@ -15,7 +15,7 @@ DEFAULT_DATASET = DATA_DIR / "dataset.csv"
 
 
 def _is_numeric_type(attr_type: str) -> bool:
-    if _is_nominal_type(attr_type):   # {a, b, c} nunca é numérico
+    if _is_nominal_type(attr_type):
         return False
     return any(t in attr_type for t in ('numeric', 'real', 'integer'))
 
@@ -25,11 +25,7 @@ def _is_nominal_type(attr_type: str) -> bool:
 
 
 def load_arff(file_path: str, target_column: str = None, exclude_columns: list = None) -> tuple:
-    """
-    Parseia arquivo ARFF manualmente. Retorna (X, y, feature_names).
-    Atributos nominais são label-encoded para inteiros.
-    Se target_column for None, usa a última coluna como alvo.
-    """
+
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -272,21 +268,18 @@ def _fmt(mean, std):
 
 
 def _tabela(titulo, col_modelo, headers, rows):
-    """Imprime tabela com bordas, título centralizado e colunas alinhadas."""
-    CW = 16          # largura das colunas de métricas
+    CW = 16
     NW = max(len(col_modelo), max(len(r[0]) for r in rows)) + 2
 
     total = NW + CW * len(headers)
     h_line = "─" * total
 
-    # cabeçalho da tabela
     print(f"\n{titulo:^{total}}")
     print(h_line)
     header_str = f"{col_modelo:<{NW}}" + "".join(f"{h:^{CW}}" for h in headers)
     print(header_str)
     print(h_line)
 
-    # linhas de dados
     for r in rows:
         print(f"{r[0]:<{NW}}" + "".join(f"{v:^{CW}}" for v in r[1:]))
 
@@ -334,16 +327,14 @@ def print_tabela_regressao(results):
 
 
 def main():
-    # --- configurações ---
     DATASET_CLASSIFICACAO = Path("data/phplE7q6h.arff")  # EEG Eye State
     TARGET_CLASSIFICACAO  = "Class"
 
     DATASET_REGRESSAO     = Path("data/dataset.arff")    # Bike Sharing Demand
     TARGET_REGRESSAO      = "count"
-    EXCLUIR_REGRESSAO     = ["casual", "registered"]     # evitar data leakage
+    EXCLUIR_REGRESSAO     = ["casual", "registered"]  # ex: ["casual", "registered"] para evitar data leakage
 
     K_FOLDS               = 4
-    # ---------------------
 
     if not DATASET_CLASSIFICACAO.exists():
         raise FileNotFoundError(f"Dataset não encontrado: {DATASET_CLASSIFICACAO}")

@@ -2,16 +2,6 @@ import numpy as np
 
 
 class NaiveBayesMultivariado:
-    """
-    Classificador Naive Bayes Gaussiano — Caso Multivariado.
-
-    Modela a distribuição conjunta de todas as features usando a
-    distribuição normal multivariada, capturando correlações entre elas:
-
-        p(x | c) = 1 / sqrt((2π)^d * |Σ|) * exp(-1/2 * (x-μ)^T Σ^{-1} (x-μ))
-
-    onde μ é o vetor de médias e Σ é a matriz de covariância da classe c.
-    """
 
     def __init__(self, epsilon: float = 1e-6):
         self.epsilon = epsilon
